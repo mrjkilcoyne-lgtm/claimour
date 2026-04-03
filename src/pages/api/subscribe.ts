@@ -22,7 +22,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const supabaseUrl = import.meta.env.SUPABASE_URL;
-  const supabaseKey = import.meta.env.SUPABASE_SERVICE_KEY;
+  const supabaseKey = import.meta.env.SUPABASE_SERVICE_KEY || import.meta.env.SUPABASE_ANON_KEY;
   if (!supabaseUrl || !supabaseKey) {
     return new Response(JSON.stringify({ error: 'Server configuration error.' }), { status: 500 });
   }
