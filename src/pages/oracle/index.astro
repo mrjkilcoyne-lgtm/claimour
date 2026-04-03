@@ -1,0 +1,289 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="The Oracle — UK Mental Health Law & Finance"
+  description="The Oracle gives direct opinions on UK mental health law as it applies to financial situations. Not legal advice. Firmly on your side."
+>
+  <div style="display:flex;flex-direction:column;height:calc(100vh - 58px);">
+
+    <!-- Header bar -->
+    <div style="background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 1.5rem;flex-shrink:0;">
+      <div style="max-width:760px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem;">
+            <span style="font-size:1.1rem;">&#x2697;&#xFE0F;</span>
+            <h1 style="font-size:1.15rem;font-weight:900;color:var(--blade);letter-spacing:-0.03em;">The Oracle</h1>
+            <span class="live-dot"></span>
+          </div>
+          <p style="font-size:.78rem;color:var(--muted2);line-height:1.5;max-width:500px;">
+            Gives <strong style="color:var(--blade);">opinions</strong> on UK mental health law &amp; financial services regulation.
+            Not legal advice. Not your solicitor. Will tell you what it thinks — including when your case is weak.
+            Firmly on the side of individuals without means taking on institutions with means.
+          </p>
+        </div>
+        <div style="background:var(--sur2);border:1px solid var(--border);border-radius:3px;padding:.5rem .75rem;font-size:.72rem;color:var(--muted2);max-width:200px;line-height:1.5;flex-shrink:0;">
+          <span style="color:var(--gold);font-weight:700;">&#x26A0; Not legal advice</span><br>
+          FOS complaints are free. Banks must comply with FOS decisions.
+        </div>
+      </div>
+    </div>
+
+    <!-- Message area -->
+    <div id="chat-messages" style="flex:1;overflow-y:auto;padding:1.25rem 1.5rem;">
+      <div id="chat-inner" style="max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:1rem;">
+
+        <!-- Oracle intro message (static) -->
+        <div style="display:flex;gap:.75rem;align-items:flex-start;">
+          <div class="oracle-avatar">&#x2697;</div>
+          <div class="bubble-oracle">Tell me about your situation. What did the bank do, and when?</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Input area -->
+    <div style="background:var(--surface);border-top:1px solid var(--border);padding:1rem 1.5rem;flex-shrink:0;">
+      <div style="max-width:760px;margin:0 auto;">
+        <form id="oracle-form" style="display:flex;gap:.75rem;align-items:flex-end;">
+          <textarea
+            id="oracle-input"
+            placeholder="Describe your situation..."
+            rows="2"
+            style="flex:1;background:var(--bg);border:1px solid var(--bord2);color:var(--text);border-radius:4px;padding:.75rem .9rem;font-size:.88rem;resize:none;outline:none;transition:border-color .15s;font-family:inherit;line-height:1.5;"
+            onfocus="this.style.borderColor='var(--red)'"
+            onblur="this.style.borderColor='var(--bord2)'"
+          ></textarea>
+          <button
+            type="submit"
+            id="oracle-send"
+            class="btn-red"
+            style="padding:.75rem 1.25rem;flex-shrink:0;align-self:flex-end;"
+          >
+            Send
+          </button>
+        </form>
+        <div style="margin-top:.5rem;font-size:.7rem;color:var(--muted);display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;">
+          <span>Enter to send, Shift+Enter for new line.</span>
+          <span style="margin-left:auto;">
+            FOS: <a href="https://www.financial-ombudsman.org.uk" target="_blank" rel="noopener noreferrer" style="color:var(--muted2);text-decoration:none;">financial-ombudsman.org.uk</a>
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</Layout>
+
+<style>
+  #chat-messages { scroll-behavior: smooth; }
+  .oracle-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--surface); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .8rem; flex-shrink: 0;
+  }
+  .user-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--red); display: flex; align-items: center;
+    justify-content: center; font-size: .7rem; color: #fff;
+    font-weight: 700; flex-shrink: 0;
+  }
+  .bubble-oracle {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: .85rem 1rem;
+    font-size: .88rem; color: var(--text); line-height: 1.6;
+    max-width: 85%; white-space: pre-wrap; word-break: break-word;
+  }
+  .bubble-user {
+    background: var(--red); color: #fff;
+    border-radius: 4px; padding: .85rem 1rem;
+    font-size: .88rem; line-height: 1.6;
+    max-width: 85%; white-space: pre-wrap; word-break: break-word;
+  }
+  .bubble-error {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: .85rem 1rem;
+    font-size: .88rem; color: var(--muted2); line-height: 1.6;
+    max-width: 85%; font-style: italic;
+  }
+  .bubble-typing {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: .75rem 1rem;
+    display: flex; gap: .3rem; align-items: center;
+  }
+  .typing-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--muted2); display: inline-block;
+    animation: typingPulse 1.2s infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: .2s; }
+  .typing-dot:nth-child(3) { animation-delay: .4s; }
+  @keyframes typingPulse {
+    0%,100% { opacity:.3; transform:translateY(0); }
+    50% { opacity:1; transform:translateY(-3px); }
+  }
+  #oracle-send:disabled { opacity: .5; cursor: not-allowed; }
+</style>
+
+<script>
+(function() {
+  const form = document.getElementById('oracle-form');
+  const input = document.getElementById('oracle-input');
+  const sendBtn = document.getElementById('oracle-send');
+  const messagesEl = document.getElementById('chat-messages');
+  const inner = document.getElementById('chat-inner');
+
+  if (!form || !input || !sendBtn || !messagesEl || !inner) return;
+
+  const textarea = input as HTMLTextAreaElement;
+  const btn = sendBtn as HTMLButtonElement;
+
+  const history: { role: string; content: string }[] = [];
+
+  function scrollBottom() {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function makeOracleAvatar(): HTMLElement {
+    const el = document.createElement('div');
+    el.className = 'oracle-avatar';
+    el.textContent = '\u2697';
+    return el;
+  }
+
+  function makeUserAvatar(): HTMLElement {
+    const el = document.createElement('div');
+    el.className = 'user-avatar';
+    el.textContent = 'You';
+    return el;
+  }
+
+  function makeRow(reversed: boolean): HTMLElement {
+    const row = document.createElement('div');
+    row.style.display = 'flex';
+    row.style.gap = '.75rem';
+    row.style.alignItems = 'flex-start';
+    if (reversed) row.style.flexDirection = 'row-reverse';
+    return row;
+  }
+
+  function appendUserMsg(text: string) {
+    const row = makeRow(true);
+    const avatar = makeUserAvatar();
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble-user';
+    bubble.textContent = text;
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    inner.appendChild(row);
+    scrollBottom();
+  }
+
+  let typingRow: HTMLElement | null = null;
+
+  function appendTyping() {
+    const row = makeRow(false);
+    row.id = 'typing-indicator';
+    const avatar = makeOracleAvatar();
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble-typing';
+    for (let i = 0; i < 3; i++) {
+      const dot = document.createElement('span');
+      dot.className = 'typing-dot';
+      bubble.appendChild(dot);
+    }
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    inner.appendChild(row);
+    typingRow = row;
+    scrollBottom();
+  }
+
+  function removeTyping() {
+    if (typingRow) { typingRow.remove(); typingRow = null; }
+    const existing = document.getElementById('typing-indicator');
+    if (existing) existing.remove();
+  }
+
+  function appendOracleMsg(text: string) {
+    removeTyping();
+    const row = makeRow(false);
+    const avatar = makeOracleAvatar();
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble-oracle';
+    bubble.textContent = text;
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    inner.appendChild(row);
+    scrollBottom();
+  }
+
+  function appendErrorMsg(text: string) {
+    removeTyping();
+    const row = makeRow(false);
+    const avatar = makeOracleAvatar();
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble-error';
+    bubble.textContent = text;
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    inner.appendChild(row);
+    scrollBottom();
+  }
+
+  async function sendMessage(text: string) {
+    history.push({ role: 'user', content: text });
+    appendUserMsg(text);
+    textarea.value = '';
+    textarea.rows = 2;
+    btn.disabled = true;
+    appendTyping();
+
+    try {
+      const res = await fetch('/api/oracle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        appendErrorMsg(data.error || 'The Oracle is unavailable right now. Try again.');
+        history.pop();
+      } else {
+        history.push({ role: 'assistant', content: data.content });
+        appendOracleMsg(data.content);
+      }
+    } catch {
+      appendErrorMsg('Network error. The Oracle could not be reached.');
+      history.pop();
+    } finally {
+      btn.disabled = false;
+      textarea.focus();
+    }
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = textarea.value.trim();
+    if (!text || btn.disabled) return;
+    sendMessage(text);
+  });
+
+  textarea.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      const text = textarea.value.trim();
+      if (!text || btn.disabled) return;
+      sendMessage(text);
+    }
+  });
+
+  textarea.addEventListener('input', () => {
+    textarea.rows = 2;
+    const lines = textarea.value.split('\n').length;
+    textarea.rows = Math.min(Math.max(lines, 2), 6);
+  });
+})();
+</script>

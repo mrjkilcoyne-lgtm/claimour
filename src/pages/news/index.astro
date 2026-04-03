@@ -1,0 +1,193 @@
+---
+export const prerender = false;
+
+import Layout from '../../layouts/Layout.astro';
+
+interface FeedItem {
+  title: string;
+  link: string;
+  pubDate: string;
+  description: string;
+}
+
+interface FeedSource {
+  name: string;
+  url: string;
+  color: string;
+  items: FeedItem[];
+  error: string | null;
+}
+
+function xmlGet(block: string, tag: string): string {
+  const pattern = '<' + tag + '[^>]*>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?<\\/' + tag + '>';
+  const m = block.match(new RegExp(pattern, 'i'));
+  if (!m) return '';
+  return m[1].trim()
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"');
+}
+
+function extractItems(xml: string, limit = 5): FeedItem[] {
+  const items: FeedItem[] = [];
+  const open = '<item';
+  const close = '</item>';
+  let pos = 0;
+  while (items.length < limit) {
+    const start = xml.indexOf(open, pos);
+    if (start === -1) break;
+    const end = xml.indexOf(close, start);
+    if (end === -1) break;
+    const block = xml.slice(start, end + close.length);
+    pos = end + close.length;
+    const title = xmlGet(block, 'title');
+    if (!title) continue;
+    const link = xmlGet(block, 'link') || xmlGet(block, 'guid');
+    const pubDate = xmlGet(block, 'pubDate') || xmlGet(block, 'dc:date');
+    const description = xmlGet(block, 'description');
+    items.push({ title, link, pubDate, description });
+  }
+  return items;
+}
+
+function formatDate(dateStr: string): string {
+  if (!dateStr) return '';
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  } catch { return ''; }
+}
+
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim().slice(0, 200);
+}
+
+const FEEDS = [
+  { name: 'MoneySavingExpert', url: 'https://www.moneysavingexpert.com/news/rss/', color: '#d4930a' },
+  { name: 'Mind', url: 'https://www.mind.org.uk/news-campaigns/news/rss/', color: '#22c55e' },
+  { name: 'FCA', url: 'https://www.fca.org.uk/news/rss.xml', color: '#c41e3a' },
+  { name: 'Money & Mental Health', url: 'https://www.moneyandmentalhealth.org/feed/', color: '#8888a8' },
+];
+
+const sources: FeedSource[] = await Promise.all(
+  FEEDS.map(async (feed) => {
+    try {
+      const res = await fetch(feed.url, {
+        headers: { 'User-Agent': 'Claimour/1.0 (+https://claimour.com)' },
+        signal: AbortSignal.timeout(7000),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const xml = await res.text();
+      const items = extractItems(xml, 5);
+      return { ...feed, items, error: null };
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Unknown error';
+      return { ...feed, items: [], error: msg };
+    }
+  })
+);
+
+const totalItems = sources.reduce((a, s) => a + s.items.length, 0);
+---
+
+<Layout
+  title="News — UK Banking & Mental Health"
+  description="Latest news from UK financial regulation, consumer rights, and mental health organisations."
+>
+  <div style="max-width:1200px;margin:0 auto;padding:2.5rem 1.5rem;">
+
+    <!-- Header -->
+    <div style="margin-bottom:2.5rem;">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;">
+        <span class="live-dot"></span>
+        <span style="font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);">Live Feeds</span>
+      </div>
+      <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;color:var(--blade);margin-bottom:.5rem;">
+        News &amp; Regulation
+      </h1>
+      <p style="color:var(--muted2);font-size:.95rem;max-width:600px;line-height:1.6;">
+        UK banking regulation, consumer rights, and mental health news — aggregated from official sources. Updated on each page load.
+      </p>
+      <div style="margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap;">
+        {sources.map(s => (
+          <span style={`display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;padding:.25rem .65rem;border-radius:3px;background:var(--surface);border:1px solid var(--border);color:${s.error ? 'var(--muted)' : s.color};`}>
+            <span style={`width:6px;height:6px;border-radius:50%;background:${s.error ? 'var(--muted)' : s.color};flex-shrink:0;`}></span>
+            {s.name} {s.error ? '(unavailable)' : `(${s.items.length})`}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    {totalItems === 0 && (
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:2.5rem;text-align:center;color:var(--muted2);">
+        <div style="font-size:1.5rem;margin-bottom:.75rem;">&#x26A1;</div>
+        <div style="font-weight:700;color:var(--blade);margin-bottom:.4rem;">All feeds temporarily unavailable</div>
+        <div style="font-size:.85rem;">This is usually a temporary issue. Try refreshing in a few minutes.</div>
+      </div>
+    )}
+
+    <!-- Masonry grid -->
+    <div style="columns:1;gap:1.25rem;" class="news-grid">
+      {sources.map(source => (
+        <div style="break-inside:avoid;margin-bottom:1.75rem;">
+          <!-- Source header -->
+          <div style={`display:flex;align-items:center;gap:.6rem;margin-bottom:.85rem;padding-bottom:.6rem;border-bottom:2px solid ${source.color};`}>
+            <span style={`width:8px;height:8px;border-radius:50%;background:${source.error ? 'var(--muted)' : source.color};flex-shrink:0;`}></span>
+            <span style={`font-size:.78rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:${source.error ? 'var(--muted)' : source.color};`}>
+              {source.name}
+            </span>
+          </div>
+
+          {source.error ? (
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1.25rem;color:var(--muted);font-size:.83rem;">
+              Feed unavailable — {source.error}
+            </div>
+          ) : source.items.length === 0 ? (
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1.25rem;color:var(--muted);font-size:.83rem;">
+              No items found in feed.
+            </div>
+          ) : (
+            <div style="display:flex;flex-direction:column;gap:.75rem;">
+              {source.items.map(item => (
+                <a
+                  href={item.link || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style="display:block;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1rem 1.1rem;text-decoration:none;transition:border-color .15s,transform .12s;"
+                  onmouseover={`this.style.borderColor='${source.color}';this.style.transform='translateY(-1px)'`}
+                  onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'"
+                >
+                  <div style="font-size:.88rem;font-weight:700;color:var(--blade);line-height:1.35;margin-bottom:.4rem;">
+                    {item.title}
+                  </div>
+                  {item.description && (
+                    <div style="font-size:.78rem;color:var(--muted2);line-height:1.5;margin-bottom:.5rem;">
+                      {stripHtml(item.description)}
+                      {item.description.replace(/<[^>]*>/g, '').length > 200 ? '...' : ''}
+                    </div>
+                  )}
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;">
+                    {item.pubDate && (
+                      <span style="font-size:.72rem;color:var(--muted);font-weight:500;">{formatDate(item.pubDate)}</span>
+                    )}
+                    <span style={`font-size:.7rem;font-weight:700;letter-spacing:.05em;color:${source.color};`}>
+                      {source.name} &#x2197;
+                    </span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+
+  </div>
+
+  <style>
+    @media (min-width: 640px) { .news-grid { columns: 2; } }
+    @media (min-width: 1024px) { .news-grid { columns: 4; } }
+  </style>
+</Layout>
