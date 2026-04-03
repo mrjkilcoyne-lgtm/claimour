@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  --bg:      #07070b;
+  --surface: #0f0f16;
+  --sur2:    #16161f;
+  --border:  #1f1f2e;
+  --bord2:   #2a2a3d;
+  --text:    #e8e8f2;
+  --muted:   #5c5c78;
+  --muted2:  #8888a8;
+  --red:     #c41e3a;
+  --gold:    #d4930a;
+  --blade:   #dde4f0;
+  --green:   #22c55e;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 0.14;
+  pointer-events: none;
+  z-index: 0;
+}
+.z1 { position: relative; z-index: 1; }
+h1,h2,h3 { letter-spacing: -0.03em; line-height: 1.08; color: var(--blade); }
+.btn-red {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: var(--red); color: #fff;
+  padding: .75rem 1.5rem; border-radius: 3px;
+  font-weight: 700; font-size: .9rem; text-decoration: none;
+  border: none; cursor: pointer; transition: all .15s;
+}
+.btn-red:hover { background: #e53e3e; transform: translateY(-1px); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: .4rem;
+  color: var(--muted2); padding: .75rem 1.25rem; border-radius: 3px;
+  font-weight: 500; font-size: .88rem; text-decoration: none;
+  border: 1px solid var(--bord2); transition: all .15s; background: none; cursor: pointer;
+}
+.btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+.input-field {
+  width: 100%; background: var(--surface); border: 1px solid var(--bord2);
+  color: var(--text); border-radius: 3px; padding: .7rem .9rem;
+  font-size: .9rem; outline: none; transition: border-color .15s;
+}
+.input-field:focus { border-color: var(--red); }
+.input-field::placeholder { color: var(--muted); }
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); animation: pulse 2s infinite; display: inline-block;
+}
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }

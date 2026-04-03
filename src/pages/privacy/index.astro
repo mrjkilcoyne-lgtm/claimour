@@ -1,0 +1,97 @@
+---
+import Layout from '../../layouts/Layout.astro';
+const updated = '3 April 2026';
+---
+<Layout title="Privacy Policy" description="Claimour privacy policy. Plain English. What we collect, why, and your rights.">
+<div class="z1" style="max-width:780px;margin:0 auto;padding:3rem 1.5rem;">
+
+  <div style="margin-bottom:2rem;">
+    <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;color:var(--blade);letter-spacing:-.04em;margin-bottom:.5rem;">Privacy Policy</h1>
+    <div style="font-size:.8rem;color:var(--muted);">Last updated: {updated} · Canzuk Ltd (Company No. 17074739)</div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:2rem;font-size:.9rem;color:var(--muted2);line-height:1.75;">
+
+    <section>
+      <h2 style="font-size:1rem;font-weight:800;color:var(--blade);margin-bottom:.5rem;">Who we are</h2>
+      <p>Claimour is operated by Canzuk Ltd (Company No. 17074739), registered in England and Wales. Our contact for data matters: <a href="mailto:privacy@claimour.com" style="color:var(--red);">privacy@claimour.com</a>.</p>
+    </section>
+
+    <section>
+      <h2 style="font-size:1rem;font-weight:800;color:var(--blade);margin-bottom:.5rem;">What we collect and why</h2>
+      <div style="display:flex;flex-direction:column;gap:.75rem;">
+        {[
+          ['Name and email', 'When you download a Grimoire volume. Used to send you the download link and future Grimoire updates if you consented. Stored in our Supabase database.'],
+          ['Payment data', 'If you donate, Stripe processes your payment. We receive only confirmation and amount. We do not store card details.'],
+          ['Analytics data', 'If you consent: Google Analytics tracks page views, referral source, device type, approximate location (country/city), and behaviour patterns. Used to understand how to improve the site.'],
+          ['Advertising data', 'If you consent: Google AdSense and Meta Pixel may be loaded for retargeting and interest-based advertising. These third parties have their own privacy policies.'],
+          ['Cookie/consent record', 'We store your cookie preference in your browser\'s localStorage. This is essential and cannot be opted out.'],
+          ['Technical data', 'IP address (processed by Vercel infrastructure for hosting, not stored by us), browser type, referring URL.'],
+        ].map(([what, why]) => (
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1rem 1.25rem;">
+            <div style="font-weight:700;color:var(--text);margin-bottom:.25rem;">{what}</div>
+            <div>{why}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <h2 style="font-size:1rem;font-weight:800;color:var(--blade);margin-bottom:.5rem;">Legal basis for processing</h2>
+      <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.4rem;">
+        <li><strong style="color:var(--text);">Consent</strong> — analytics, advertising, and marketing emails. You can withdraw at any time via Manage Cookies or by emailing us.</li>
+        <li><strong style="color:var(--text);">Legitimate interests</strong> — hosting, security, preventing abuse.</li>
+        <li><strong style="color:var(--text);">Contract</strong> — delivering Grimoire downloads you requested.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 style="font-size:1rem;font-weight:800;color:var(--blade);margin-bottom:.5rem;">Third parties we use</h2>
+      <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.4rem;">
+        <li><strong style="color:var(--text);">Supabase</strong> — EU database hosting (eu-west-2). Processes subscriber email/name.</li>
+        <li><strong style="color:var(--text);">Stripe</strong> — payment processing. Stripe's privacy policy applies to payment data.</li>
+        <li><strong style="color:var(--text);">Vercel</strong> — site hosting. EU region. Processes IP addresses transiently for routing.</li>
+        <li><strong style="color:var(--text);">Google Analytics</strong> — if consented. Google LLC, USA. Adequacy decision applies.</li>
+        <li><strong style="color:var(--text);">Google AdSense / Meta Pixel</strong> — if consented. Third-party advertising trackers.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 style="font-size:1rem;font-weight:800;color:var(--blade);margin-bottom:.5rem;">How long we keep data</h2>
+      <p>Subscriber records (name, email): retained until you request deletion or 3 years of inactivity, whichever is sooner. Payment records: 7 years (legal requirement). Analytics data: per Google's retention settings (26 months default).</p>
+    </section>
+
+    <section>
+      <h2 style="font-size:1rem;font-weight:800;color:var(--blade);margin-bottom:.5rem;">Your rights under UK GDPR</h2>
+      <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.4rem;">
+        <li><strong style="color:var(--text);">Access</strong> — request a copy of your data</li>
+        <li><strong style="color:var(--text);">Rectification</strong> — correct inaccurate data</li>
+        <li><strong style="color:var(--text);">Erasure</strong> — request deletion ("right to be forgotten")</li>
+        <li><strong style="color:var(--text);">Restriction</strong> — limit how we use your data</li>
+        <li><strong style="color:var(--text);">Portability</strong> — receive your data in a machine-readable format</li>
+        <li><strong style="color:var(--text);">Object</strong> — object to legitimate interests processing</li>
+        <li><strong style="color:var(--text);">Withdraw consent</strong> — at any time, for consent-based processing</li>
+      </ul>
+      <p style="margin-top:.75rem;">To exercise any right: <a href="mailto:privacy@claimour.com" style="color:var(--red);">privacy@claimour.com</a>. We'll respond within 30 days. If unsatisfied: <a href="https://ico.org.uk" target="_blank" rel="noopener" style="color:var(--red);">ICO (ico.org.uk)</a>.</p>
+    </section>
+
+    <section>
+      <h2 style="font-size:1rem;font-weight:800;color:var(--blade);margin-bottom:.5rem;">Cookies</h2>
+      <p>We use:</p>
+      <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.4rem;">
+        <li><strong style="color:var(--text);">localStorage (essential)</strong> — stores your cookie consent preference and Grimoire unlock status. Cannot be disabled.</li>
+        <li><strong style="color:var(--text);">Google Analytics cookies</strong> — if consented. Tracks sessions, page views, referrals.</li>
+        <li><strong style="color:var(--text);">Advertising cookies</strong> — if consented. Set by Google AdSense and/or Meta.</li>
+        <li><strong style="color:var(--text);">Stripe cookies</strong> — set on the Stripe-hosted payment page only.</li>
+      </ul>
+      <p style="margin-top:.75rem;">You can change your preferences at any time: <button onclick="localStorage.removeItem('claimour_consent');window.location.reload();" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:inherit;padding:0;text-decoration:underline;">Reset cookie preferences</button></p>
+    </section>
+
+    <section>
+      <h2 style="font-size:1rem;font-weight:800;color:var(--blade);margin-bottom:.5rem;">Not legal advice</h2>
+      <p>All content on Claimour is for information only. It does not constitute legal advice. For specific legal matters, consult a qualified solicitor.</p>
+    </section>
+
+  </div>
+</div>
+</Layout>

@@ -1,0 +1,142 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Support Claimour" description="Claimour is free forever. If it helped you, help us keep it free for someone else.">
+<div class="z1" style="max-width:720px;margin:0 auto;padding:3rem 1.5rem;">
+
+  <!-- Header -->
+  <div style="margin-bottom:2.5rem;text-align:center;">
+    <div style="font-size:2.5rem;margin-bottom:.75rem;">⚔</div>
+    <h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:var(--blade);letter-spacing:-.04em;margin-bottom:.75rem;">The sword stays free.</h1>
+    <p style="color:var(--muted2);font-size:1rem;line-height:1.7;max-width:480px;margin:0 auto;">
+      Claimour is free forever. No paywalls. No subscriptions. No VC money.
+      If this helped you get something back — or helped someone who couldn't afford not to know — a contribution keeps it running for the next person.
+    </p>
+  </div>
+
+  <!-- What you're funding -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:2rem;margin-bottom:2rem;">
+    <div style="font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem;">What you're funding</div>
+    <div style="display:flex;flex-direction:column;gap:.85rem;">
+      {[
+        ['🖥', 'Hosting, domain, and infrastructure — currently ~£18/mo'],
+        ['📖', 'Grimoire updates — new volumes, verified cross-app teardowns'],
+        ['⚖️', 'Legal review — keeping LifeBack UK accurate as legislation changes'],
+        ['👁', 'Bank Hypocrisy Watch — sourcing, verifying, publishing receipts'],
+        ['🔓', 'Keeping everything free — no gating, no premium tier'],
+      ].map(([icon, text]) => (
+        <div style="display:flex;gap:.75rem;align-items:flex-start;">
+          <span style="font-size:1.1rem;flex-shrink:0;">{icon}</span>
+          <span style="font-size:.87rem;color:var(--muted2);line-height:1.55;">{text}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Stripe Payment Links -->
+  <div style="display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem;">
+    <div style="font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem;">Choose an amount</div>
+
+    <!-- One-time -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;" id="amounts-one-time">
+      {[
+        { amount: '£3', label: 'Coffee', desc: 'A small fuel' },
+        { amount: '£10', label: 'A round', desc: 'Most useful' },
+        { amount: '£25', label: 'A tank', desc: 'Much appreciated' },
+      ].map(a => (
+        <button
+          class="amount-btn"
+          data-amount={a.amount}
+          style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1.25rem 1rem;cursor:pointer;text-align:center;transition:all .15s;color:inherit;"
+          onmouseover="this.style.borderColor='var(--red)';this.style.background='rgba(239,68,68,.06)'"
+          onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='var(--border)';this.style.background='var(--surface)'}"
+        >
+          <div style="font-size:1.4rem;font-weight:900;color:var(--blade);letter-spacing:-.04em;">{a.amount}</div>
+          <div style="font-size:.75rem;font-weight:700;color:var(--red);margin:.15rem 0;">{a.label}</div>
+          <div style="font-size:.7rem;color:var(--muted);">{a.desc}</div>
+        </button>
+      ))}
+    </div>
+
+    <!-- Custom amount -->
+    <div style="display:flex;gap:.5rem;align-items:center;">
+      <span style="font-size:1rem;color:var(--muted2);font-weight:700;">£</span>
+      <input
+        type="number"
+        id="custom-amount"
+        placeholder="Other amount"
+        min="1"
+        style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.6rem .85rem;color:var(--text);font-size:.9rem;font-family:inherit;outline:none;"
+        onfocus="this.style.borderColor='var(--red)'"
+        onblur="this.style.borderColor='var(--border)'"
+      />
+    </div>
+
+    <!-- Pay button -->
+    <button
+      id="pay-btn"
+      class="btn-red"
+      style="justify-content:center;font-size:1rem;padding:.85rem 1.5rem;width:100%;margin-top:.25rem;"
+      onclick="handleDonate()"
+    >
+      Donate with Stripe ♥
+    </button>
+    <div style="font-size:.72rem;color:var(--muted);text-align:center;">
+      Secure via Stripe. One-time. No account needed. Canzuk Ltd (17074739).
+    </div>
+  </div>
+
+  <!-- Alternatives -->
+  <div style="border-top:1px solid var(--border);padding-top:1.5rem;">
+    <div style="font-size:.72rem;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1rem;">Other ways to help</div>
+    <div style="display:flex;flex-direction:column;gap:.65rem;">
+      <div style="font-size:.85rem;color:var(--muted2);">📣 <strong style="color:var(--text);">Share it.</strong> One share to someone who needs it is worth more than any donation.</div>
+      <div style="font-size:.85rem;color:var(--muted2);">🧠 <strong style="color:var(--text);">Contribute knowledge.</strong> Legal updates, receipts for the Watch, new chargeback wins — <a href="mailto:contribute@claimour.com" style="color:var(--red);text-decoration:none;">email us</a>.</div>
+      <div style="font-size:.85rem;color:var(--muted2);">📋 <strong style="color:var(--text);">Submit a receipt.</strong> Bank hypocrisy, documented. <a href="/watch" style="color:var(--red);text-decoration:none;">Go to the Watch →</a></div>
+    </div>
+  </div>
+
+</div>
+
+<script is:inline>
+// Stripe Payment Links — set these once you have them from dashboard
+var STRIPE_LINKS = {
+  '£3':  'https://buy.stripe.com/PLACEHOLDER_3',
+  '£10': 'https://buy.stripe.com/PLACEHOLDER_10',
+  '£25': 'https://buy.stripe.com/PLACEHOLDER_25',
+  'custom': 'https://buy.stripe.com/PLACEHOLDER_CUSTOM'
+};
+
+var selected = '£10';
+document.querySelectorAll('.amount-btn').forEach(function(btn) {
+  if (btn.dataset.amount === selected) {
+    btn.classList.add('selected');
+    btn.style.borderColor = 'var(--red)';
+    btn.style.background = 'rgba(239,68,68,.06)';
+  }
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.amount-btn').forEach(function(b) {
+      b.classList.remove('selected');
+      b.style.borderColor = 'var(--border)';
+      b.style.background = 'var(--surface)';
+    });
+    btn.classList.add('selected');
+    btn.style.borderColor = 'var(--red)';
+    btn.style.background = 'rgba(239,68,68,.06)';
+    selected = btn.dataset.amount;
+    document.getElementById('custom-amount').value = '';
+  });
+});
+
+function handleDonate() {
+  var custom = document.getElementById('custom-amount').value;
+  var link;
+  if (custom && parseInt(custom) > 0) {
+    link = STRIPE_LINKS['custom'] + '?amount=' + (parseInt(custom) * 100);
+  } else {
+    link = STRIPE_LINKS[selected] || STRIPE_LINKS['custom'];
+  }
+  window.open(link, '_blank');
+}
+</script>
+</Layout>

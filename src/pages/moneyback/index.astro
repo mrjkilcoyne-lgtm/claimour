@@ -1,0 +1,259 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const tracks = [
+  {
+    id: 'sar',
+    color: '#3b82f6',
+    icon: '📄',
+    title: 'Subject Access Request (SAR)',
+    subtitle: 'Get everything they hold on you. Free. 30 days.',
+    steps: [
+      'Write to the Data Controller (their DPO email — by law, every company must have one or a contact point)',
+      'State: "I am exercising my right of access under Article 15 UK GDPR and request all personal data you hold about me"',
+      'Include: full name, account numbers, date of birth, any reference numbers',
+      'They have 30 calendar days to comply. If refused or incomplete, complain to ICO immediately',
+      'For banks: SAR covers call recordings, credit decisions, fraud flags, vulnerability notes, complaints history',
+      'For NHS: SAR covers clinical notes, section papers, capacity assessments, medication records',
+    ],
+    template: `Dear Data Protection Officer,
+
+I am writing to exercise my right of access under Article 15 of the UK General Data Protection Regulation (UK GDPR).
+
+Please provide me with all personal data you hold about me, including but not limited to:
+- Account history and transaction records
+- Communications (letters, emails, call notes, recordings)
+- Credit decisions and risk assessments
+- Vulnerability or mental health flags
+- Fraud or risk markers
+- Complaints history and outcomes
+- Any third-party disclosures made about me
+
+My details: [Full Name], [Date of Birth], [Account/Reference Numbers], [Address]
+
+Please respond within 30 calendar days as required by UK GDPR.
+
+Yours faithfully,
+[Your Name]`,
+  },
+  {
+    id: 'fos',
+    color: 'var(--red)',
+    icon: '⚖️',
+    title: 'Financial Ombudsman (FOS)',
+    subtitle: 'Free. Binding. Up to £415,000 awards.',
+    steps: [
+      'Complain to the bank first — they have 8 weeks to resolve it',
+      'If unresolved or you\'re unhappy: go straight to FOS at financial-ombudsman.org.uk',
+      'FOS is free, independent, and the bank must abide by the decision',
+      'Covers: unfair charges, treatment during vulnerability, complaint handling failures, unlawful debt collection',
+      'Maximum FOS award: £415,000 (increased 2024)',
+      'For mental-health-linked complaints: specifically cite FCA Consumer Duty and CONC 7.3 forbearance rules',
+    ],
+    template: `Dear Financial Ombudsman Service,
+
+I wish to refer my complaint against [Bank Name] for your review.
+
+Summary of complaint:
+[Bank Name] has failed to treat me fairly during a period of financial difficulty / mental health vulnerability. Specifically:
+
+- [Describe what happened and when]
+- [What the bank did wrong]
+- [What you asked them to do and their response]
+- [Why their response is inadequate]
+
+I believe this constitutes a breach of:
+- FCA Consumer Duty (PS22/9): obligation to deliver good outcomes for retail customers
+- CONC 7.3: rules on forbearance and treatment of customers in difficulty
+- [Any other relevant rules]
+
+I am seeking: [What you want — refund, removal of default, apology, compensation]
+
+I have enclosed: [list documents]
+
+Yours faithfully,
+[Your Name]`,
+  },
+  {
+    id: 'chargeback',
+    color: 'var(--gold)',
+    icon: '💳',
+    title: 'Chargeback & Section 75',
+    subtitle: 'Reverse any card payment. Your bank is jointly liable.',
+    steps: [
+      'Section 75 (Consumer Credit Act 1974): applies to credit card purchases £100–£30,000. Your card issuer is jointly liable with the seller.',
+      'Chargeback: applies to debit AND credit cards, any amount. Ask your bank to "raise a chargeback" against the merchant.',
+      'Grounds: item not received, not as described, company gone bust, subscription cancelled but still charged, fraud',
+      'Do NOT accept "we can\'t do that" — if they refuse to process a valid chargeback, escalate to FOS immediately',
+      'Time limit: 120 days from transaction (Visa/Mastercard rules) — don\'t delay',
+      'For credit cards over £100: Section 75 has no time limit tied to chargeback windows',
+    ],
+    template: `Dear [Bank/Card Issuer],
+
+I am writing to request a chargeback / Section 75 claim against the following transaction:
+
+Merchant: [Name]
+Date: [Date]
+Amount: £[Amount]
+Reference: [Transaction reference if known]
+
+Reason: [Item not received / Service not provided as described / Merchant gone bust / Subscription cancelled but charged / Fraud]
+
+I have already attempted to resolve this with the merchant: [Yes/No — describe outcome]
+
+Under [Visa/Mastercard Chargeback Rules / Section 75 Consumer Credit Act 1974], I request you reverse this transaction immediately.
+
+Please confirm in writing that you are processing this claim.
+
+Yours faithfully,
+[Your Name]`,
+  },
+  {
+    id: 'default',
+    color: '#8b5cf6',
+    icon: '📊',
+    title: 'Challenge a Default / CCJ',
+    subtitle: 'Defaults during incapacity can be removed. Don\'t accept them.',
+    steps: [
+      'If a default was registered during a period where you lacked mental capacity (e.g. MHA detention, psychosis), it may be challengeable',
+      'Write to the lender: request they remove the default on grounds of incapacity / absence of proper consent',
+      'Cite: Mental Capacity Act 2005, FCA Consumer Duty, and the Debt & Mental Health Evidence Form (DMHEF) standard',
+      'Get a DMHEF from your GP/psychiatrist — it\'s the industry-standard evidence form for this',
+      'If they refuse: SAR to get the full credit decision history, then FOS complaint citing vulnerability failures',
+      'For CCJs: apply to set aside (N244 form) on grounds you were incapacitated when default judgment was entered',
+    ],
+    template: `Dear [Lender / Credit Reference Agency],
+
+I am writing to formally dispute the default registered against me on [date] for account [reference].
+
+I have evidence that during the period [date range], I was subject to a mental health episode that significantly impaired my financial decision-making capacity. Specifically: [brief description — e.g. detained under Section 3 MHA, acute psychotic episode, in inpatient care].
+
+I am requesting:
+1. Removal of the default on grounds of incapacity and failure to apply appropriate forbearance under FCA CONC 7.3
+2. Full SAR for the relevant period to review the credit decisions made
+3. Written confirmation of your complaints procedure
+
+I enclose / will provide: a Debt and Mental Health Evidence Form (DMHEF) from my treating clinician.
+
+If this matter is not resolved satisfactorily within 8 weeks, I will refer it to the Financial Ombudsman Service.
+
+Yours faithfully,
+[Your Name]`,
+  },
+];
+---
+<Layout title="Get Your Money Back — Claims & Templates" description="SAR templates, FOS complaints, chargeback scripts, and default challenges. Free, plain English, ready to send.">
+<div class="z1" style="max-width:1100px;margin:0 auto;padding:3rem 1.5rem;">
+
+  <!-- Header -->
+  <div style="margin-bottom:2rem;">
+    <div style="font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem;">Claim Back</div>
+    <h1 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:900;color:var(--blade);letter-spacing:-.04em;margin-bottom:.75rem;">Get Your Money Back</h1>
+    <p style="color:var(--muted2);font-size:1rem;max-width:600px;line-height:1.65;">
+      Four proven routes. Template letters ready to copy. No lawyers needed to start.
+      If one route fails, escalate to the next. They have to respond.
+    </p>
+  </div>
+
+  <!-- Track nav -->
+  <div style="display:flex;gap:.5rem;margin-bottom:2rem;flex-wrap:wrap;">
+    {tracks.map(t => (
+      <a href={`#${t.id}`} style={`font-size:.78rem;font-weight:700;padding:.4rem .9rem;border-radius:4px;text-decoration:none;border:1px solid ${t.color};color:${t.color};background:transparent;transition:all .15s;`}
+        onmouseover={`this.style.background='${t.color}';this.style.color='#07070b';`}
+        onmouseout={`this.style.background='transparent';this.style.color='${t.color}';`}>
+        {t.icon} {t.title.split(' ')[0]}
+      </a>
+    ))}
+  </div>
+
+  <!-- Tracks -->
+  <div style="display:flex;flex-direction:column;gap:2rem;">
+    {tracks.map(t => (
+      <div id={t.id} style={`background:var(--surface);border:1px solid var(--border);border-left:4px solid ${t.color};border-radius:5px;overflow:hidden;`}>
+
+        <!-- Track header -->
+        <div style="padding:2rem;border-bottom:1px solid var(--border);">
+          <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem;">
+            <span style="font-size:1.8rem;">{t.icon}</span>
+            <div>
+              <div style="font-size:1.1rem;font-weight:800;color:var(--blade);letter-spacing:-.02em;">{t.title}</div>
+              <div style={`font-size:.8rem;color:${t.color};font-weight:600;`}>{t.subtitle}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Steps + Template side by side -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;" class="track-grid">
+
+          <!-- Steps -->
+          <div style="padding:1.75rem;border-right:1px solid var(--border);">
+            <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;">How to do it</div>
+            <ol style="margin:0;padding:0 0 0 1.25rem;display:flex;flex-direction:column;gap:.75rem;">
+              {t.steps.map(s => (
+                <li style="font-size:.85rem;color:var(--muted2);line-height:1.6;">{s}</li>
+              ))}
+            </ol>
+          </div>
+
+          <!-- Template -->
+          <div style="padding:1.75rem;">
+            <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;">
+              Template letter
+              <button onclick={`copyTemplate('tpl-${t.id}')`} style={`margin-left:.75rem;font-size:.68rem;padding:.2rem .55rem;border-radius:3px;border:1px solid ${t.color};color:${t.color};background:transparent;cursor:pointer;font-weight:700;`}>Copy</button>
+            </div>
+            <pre id={`tpl-${t.id}`} style="font-size:.75rem;color:var(--muted2);line-height:1.65;white-space:pre-wrap;word-break:break-word;background:rgba(0,0,0,.2);border-radius:4px;padding:1rem;margin:0;max-height:320px;overflow-y:auto;font-family:inherit;">{t.template}</pre>
+          </div>
+
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Escalation ladder -->
+  <div style="margin-top:2.5rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:2rem;">
+    <div style="font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;">Escalation ladder</div>
+    <div style="display:flex;flex-direction:column;gap:.5rem;">
+      {[
+        ['1', 'Complain to the company directly (8 weeks)'],
+        ['2', 'Financial Ombudsman Service if unresolved (free, binding)'],
+        ['3', 'ICO complaint if data/SAR issues (free)'],
+        ['4', 'Small Claims Court (up to £10k, self-represent)'],
+        ['5', 'No-win no-fee solicitor for larger claims or complex cases'],
+      ].map(([n, text]) => (
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <div style="width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">{n}</div>
+          <div style="font-size:.87rem;color:var(--muted2);">{text}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- CTA to watch -->
+  <div style="margin-top:1.5rem;padding:1.5rem;border:1px solid var(--border);border-radius:5px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+    <div>
+      <div style="font-size:.92rem;font-weight:700;color:var(--blade);margin-bottom:.2rem;">Is this a bank hypocrisy case?</div>
+      <div style="font-size:.8rem;color:var(--muted2);">If your bank had a mental health policy and still failed you, that's grounds for a higher-severity complaint.</div>
+    </div>
+    <a href="/watch" class="btn-ghost" style="font-size:.82rem;padding:.5rem 1rem;white-space:nowrap;">View the receipts →</a>
+  </div>
+
+</div>
+
+<script is:inline>
+function copyTemplate(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  navigator.clipboard.writeText(el.textContent).then(function() {
+    var btn = document.querySelector('[onclick="copyTemplate(\'' + id + '\')"]');
+    if (btn) { var orig = btn.textContent; btn.textContent = '✓ Copied'; setTimeout(function(){ btn.textContent = orig; }, 2000); }
+  });
+}
+</script>
+
+<style>
+@media(max-width:680px) {
+  .track-grid { grid-template-columns: 1fr !important; }
+  .track-grid > div:first-child { border-right: none !important; border-bottom: 1px solid var(--border); }
+}
+</style>
+</Layout>

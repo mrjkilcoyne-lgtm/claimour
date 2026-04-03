@@ -1,0 +1,196 @@
+---
+import '../styles/global.css';
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+const {
+  title,
+  description = 'Claimour — free UK consumer rights, legal empowerment, and technical power guides. The sword for anyone the system forgot.',
+  ogImage = '/og.png',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="canonical" href={canonical} />
+  <title>{title} | Claimour</title>
+  <meta name="description" content={description} />
+  <!-- OG -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <!-- GA4 — only loads after consent -->
+  <script is:inline>
+    window.__consent = JSON.parse(localStorage.getItem('claimour_consent') || 'null');
+    if (window.__consent?.analytics) {
+      const s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + (window.__GA_ID || '');
+      s.async = true;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', window.__GA_ID);
+    }
+  </script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav style="position:sticky;top:0;z-index:100;background:rgba(7,7,11,0.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;" class="z1">
+  <a href="/" style="font-size:1.1rem;font-weight:900;letter-spacing:-0.04em;color:var(--blade);text-decoration:none;display:flex;align-items:center;gap:.4rem;">
+    <span style="color:var(--red)">⚔</span> Claimour
+  </a>
+  <div style="display:flex;gap:.25rem;align-items:center;flex-wrap:wrap;">
+    <a href="/rights" style="color:var(--muted2);text-decoration:none;font-size:.82rem;font-weight:500;padding:.3rem .65rem;border-radius:3px;transition:all .15s;" onmouseover="this.style.color='var(--text)';this.style.background='var(--surface)'" onmouseout="this.style.color='var(--muted2)';this.style.background='none'">Rights</a>
+    <a href="/moneyback" style="color:var(--muted2);text-decoration:none;font-size:.82rem;font-weight:500;padding:.3rem .65rem;border-radius:3px;transition:all .15s;" onmouseover="this.style.color='var(--text)';this.style.background='var(--surface)'" onmouseout="this.style.color='var(--muted2)';this.style.background='none'">Money Back</a>
+    <a href="/grimoire" style="color:var(--muted2);text-decoration:none;font-size:.82rem;font-weight:500;padding:.3rem .65rem;border-radius:3px;transition:all .15s;" onmouseover="this.style.color='var(--text)';this.style.background='var(--surface)'" onmouseout="this.style.color='var(--muted2)';this.style.background='none'">Grimoire</a>
+    <a href="/watch" style="color:var(--muted2);text-decoration:none;font-size:.82rem;font-weight:500;padding:.3rem .65rem;border-radius:3px;transition:all .15s;" onmouseover="this.style.color='var(--text)';this.style.background='var(--surface)'" onmouseout="this.style.color='var(--muted2)';this.style.background='none'">Watch</a>
+    <a href="/donate" class="btn-red" style="font-size:.8rem;padding:.4rem .9rem;">Support ♥</a>
+  </div>
+</nav>
+
+<!-- PAGE CONTENT -->
+<main class="z1">
+  <slot />
+</main>
+
+<!-- FOOTER -->
+<footer style="border-top:1px solid var(--border);background:var(--surface);padding:2rem 1.5rem;position:relative;z-index:1;" class="z1">
+  <div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+    <div style="font-weight:900;font-size:.95rem;letter-spacing:-0.03em;color:var(--muted2);">⚔ Claimour</div>
+    <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
+      <a href="/rights" style="color:var(--muted);text-decoration:none;font-size:.78rem;">Rights</a>
+      <a href="/moneyback" style="color:var(--muted);text-decoration:none;font-size:.78rem;">Money Back</a>
+      <a href="/grimoire" style="color:var(--muted);text-decoration:none;font-size:.78rem;">Grimoire</a>
+      <a href="/watch" style="color:var(--muted);text-decoration:none;font-size:.78rem;">Bank Watch</a>
+      <a href="/donate" style="color:var(--muted);text-decoration:none;font-size:.78rem;">Donate</a>
+      <a href="/privacy" style="color:var(--muted);text-decoration:none;font-size:.78rem;">Privacy</a>
+    </div>
+    <div style="width:100%;border-top:1px solid var(--border);padding-top:1rem;margin-top:.5rem;font-size:.7rem;color:var(--muted);">
+      Not legal advice. Free forever. Content licensed Creative Commons BY-SA 4.0. The sword is yours. &copy; Canzuk Ltd {new Date().getFullYear()}
+    </div>
+  </div>
+</footer>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:var(--surface);border-top:2px solid var(--red);padding:1.25rem 1.5rem;">
+  <div style="max-width:1100px;margin:0 auto;display:flex;gap:1.5rem;align-items:flex-start;flex-wrap:wrap;">
+    <div style="flex:1;min-width:260px;">
+      <div style="font-weight:700;font-size:.92rem;color:var(--blade);margin-bottom:.35rem;">We use cookies. Lots of them. Here's what we track.</div>
+      <div style="font-size:.78rem;color:var(--muted2);line-height:1.55;">
+        We collect analytics, advertising signals, Grimoire download behaviour, referral sources, device type, location (country/city), and browsing patterns on this site.
+        We use Google Analytics, Google AdSense, Stripe (for payments), Supabase (for your data if you register), and may use Facebook/Meta Pixel and LinkedIn tags for retargeting.
+        Your email (if given) goes into our database and we may contact you with updates.
+        If you click Accept All, you're consenting to all of the above. If you click Manage, you can choose. If you do nothing, we only use essential cookies.
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.5rem;min-width:160px;">
+      <button class="btn-red" onclick="acceptAll()" style="font-size:.82rem;padding:.6rem 1rem;justify-content:center;">Accept All</button>
+      <button class="btn-ghost" onclick="showManage()" style="font-size:.82rem;padding:.6rem 1rem;justify-content:center;">Manage</button>
+      <button class="btn-ghost" onclick="rejectAll()" style="font-size:.78rem;padding:.5rem .9rem;justify-content:center;opacity:.7;">Essential Only</button>
+    </div>
+  </div>
+</div>
+
+<!-- MANAGE COOKIES MODAL -->
+<div id="cookie-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(7,7,11,0.92);display:none;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2rem;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;">
+    <div style="font-size:1.1rem;font-weight:800;color:var(--blade);margin-bottom:1rem;">Cookie Preferences</div>
+    <div id="cookie-options" style="display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.5rem;">
+      <label style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;color:var(--text);cursor:pointer;">
+        <input type="checkbox" id="c-essential" checked disabled style="width:16px;height:16px;accent-color:var(--red);cursor:not-allowed;"> Essential (always on — login, security, session)
+      </label>
+      <label style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;color:var(--text);cursor:pointer;">
+        <input type="checkbox" id="c-analytics" style="width:16px;height:16px;accent-color:var(--red);"> Analytics (Google Analytics, traffic patterns, page performance)
+      </label>
+      <label style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;color:var(--text);cursor:pointer;">
+        <input type="checkbox" id="c-advertising" style="width:16px;height:16px;accent-color:var(--red);"> Advertising (Google AdSense, Meta Pixel, retargeting, interest-based ads)
+      </label>
+      <label style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;color:var(--text);cursor:pointer;">
+        <input type="checkbox" id="c-marketing" style="width:16px;height:16px;accent-color:var(--red);"> Marketing (email updates, Grimoire new release alerts, newsletter)
+      </label>
+    </div>
+    <div style="display:flex;gap:.75rem;">
+      <button class="btn-red" onclick="saveManage()" style="flex:1;justify-content:center;font-size:.85rem;">Save Preferences</button>
+      <button class="btn-ghost" onclick="closeManage()" style="font-size:.85rem;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+(function() {
+  const stored = localStorage.getItem('claimour_consent');
+  if (!stored) {
+    document.getElementById('cookie-banner').style.display = 'block';
+  }
+  window.acceptAll = function() {
+    const c = { essential:true, analytics:true, advertising:true, marketing:true, ts: Date.now() };
+    localStorage.setItem('claimour_consent', JSON.stringify(c));
+    document.getElementById('cookie-banner').style.display = 'none';
+    window.__consent = c;
+    loadGA();
+    loadAds();
+  };
+  window.rejectAll = function() {
+    const c = { essential:true, analytics:false, advertising:false, marketing:false, ts: Date.now() };
+    localStorage.setItem('claimour_consent', JSON.stringify(c));
+    document.getElementById('cookie-banner').style.display = 'none';
+  };
+  window.showManage = function() {
+    document.getElementById('cookie-modal').style.display = 'flex';
+  };
+  window.closeManage = function() {
+    document.getElementById('cookie-modal').style.display = 'none';
+  };
+  window.saveManage = function() {
+    const c = {
+      essential: true,
+      analytics: document.getElementById('c-analytics').checked,
+      advertising: document.getElementById('c-advertising').checked,
+      marketing: document.getElementById('c-marketing').checked,
+      ts: Date.now()
+    };
+    localStorage.setItem('claimour_consent', JSON.stringify(c));
+    document.getElementById('cookie-banner').style.display = 'none';
+    document.getElementById('cookie-modal').style.display = 'none';
+    if (c.analytics) loadGA();
+    if (c.advertising) loadAds();
+  };
+  window.loadGA = function() {
+    if (window.__gaLoaded) return; window.__gaLoaded = true;
+    const gid = document.querySelector('meta[name="ga-id"]')?.content;
+    if (!gid) return;
+    const s = document.createElement('script');
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gid;
+    s.async = true; document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
+    gtag('js', new Date()); gtag('config', gid);
+  };
+  window.loadAds = function() {
+    if (window.__adsLoaded) return; window.__adsLoaded = true;
+    const s = document.createElement('script');
+    s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+    s.async = true; s.crossOrigin = 'anonymous';
+    s.setAttribute('data-ad-client', 'ca-pub-XXXXXXXXXXXXXXXX');
+    document.head.appendChild(s);
+  };
+  const c = JSON.parse(stored || 'null');
+  if (c?.analytics) { setTimeout(loadGA, 100); }
+  if (c?.advertising) { setTimeout(loadAds, 200); }
+})();
+</script>
+
+</body>
+</html>

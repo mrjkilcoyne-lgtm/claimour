@@ -1,0 +1,126 @@
+---
+import Layout from '../../layouts/Layout.astro';
+const volumes = [
+  { num:'00', slug:'index', icon:'📋', title:'Master Index', desc:'The routing table, philosophy, 20 golden tricks, and the Grimoire Oath. Read this first.' },
+  { num:'I', slug:'automaton', icon:'🤖', title:'The Automaton', desc:'Headless automation, Tasker chains, ADB control, scheduling. Make your phone run without touching it.' },
+  { num:'II', slug:'shadow-apis', icon:'🕳️', title:'Shadow APIs', desc:'Every "no API" app has an API. Hidden endpoints, undocumented routes, owning your own data.' },
+  { num:'III', slug:'invisibility', icon:'👁', title:'Invisibility Cloak', desc:'Privacy, stealth, counter-surveillance. DNS sinkholing, compartmentalisation, ghost profiles.' },
+  { num:'IV', slug:'alchemy', icon:'⚗️', title:'Alchemy', desc:'Cross-domain transmutation. Combining systems nobody intended to connect. The real power is in the chain.' },
+  { num:'V', slug:'sigint', icon:'📡', title:'SIGINT', desc:'Signals intelligence from your own device. Read what your apps are doing without asking them.' },
+  { num:'VI', slug:'commerce', icon:'💰', title:'Commerce Engine', desc:'Rewire your financial nervous system. Open Banking, subscription audits, the full financial OS.' },
+  { num:'VII', slug:'human-layer', icon:'🧠', title:'The Human Layer', desc:'Headology, identity, knowing when. Technical power without wisdom is just complexity. Read first.' },
+  { num:'⚡', slug:'meta-cheats', icon:'⚡', title:'META-CHEATS', desc:'20 cross-app patterns from 260 app teardowns. The stuff nobody tells you. Read if you\'re in a hurry.' },
+];
+---
+<Layout title="The Grimoire — Technical Power User Guides" description="Eight volumes on Android power, shadow APIs, financial automation, and the human layer. Free to download with your email.">
+<div class="z1" style="max-width:1100px;margin:0 auto;padding:3rem 1.5rem;">
+
+  <!-- Header -->
+  <div style="margin-bottom:1.5rem;">
+    <div style="font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;">Technical Power</div>
+    <h1 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:900;color:var(--blade);letter-spacing:-.04em;margin-bottom:.75rem;">The Grimoire</h1>
+    <p style="color:var(--muted2);font-size:1rem;max-width:580px;line-height:1.65;">
+      Eight volumes on using your phone as the intelligence platform it actually is.
+      Compiled from 260 app teardowns and 180 hours of testing. Free to download — just your name and email.
+    </p>
+  </div>
+
+  <!-- Email gate -->
+  <div id="gate" style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:5px;padding:2rem;margin-bottom:2.5rem;max-width:520px;">
+    <div style="font-size:.88rem;font-weight:700;color:var(--blade);margin-bottom:.25rem;">Unlock all volumes</div>
+    <div style="font-size:.8rem;color:var(--muted2);margin-bottom:1.25rem;line-height:1.5;">
+      Enter your name and email to download any volume as a PDF. No spam — just Grimoire updates when new volumes drop.
+    </div>
+    <form id="grimoire-form" style="display:flex;flex-direction:column;gap:.65rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem;">
+        <input class="input-field" type="text" name="first_name" placeholder="First name" required />
+        <input class="input-field" type="text" name="last_name" placeholder="Last name" required />
+      </div>
+      <input class="input-field" type="email" name="email" placeholder="Email address" required />
+      <label style="display:flex;align-items:flex-start;gap:.5rem;font-size:.73rem;color:var(--muted2);cursor:pointer;line-height:1.5;">
+        <input type="checkbox" required style="margin-top:2px;accent-color:var(--gold);flex-shrink:0;" />
+        I agree to Claimour storing my name and email. I may receive Grimoire updates and may be contacted with relevant offers.
+        I understand analytics and advertising cookies may track my usage if I've consented to those.
+      </label>
+      <button type="submit" class="btn-red" style="background:var(--gold);justify-content:center;">
+        Unlock All Volumes →
+      </button>
+      <div id="gate-msg" style="font-size:.78rem;color:var(--green);display:none;">✓ You're in. Click any volume below to download.</div>
+      <div id="gate-err" style="font-size:.78rem;color:var(--red);display:none;"></div>
+    </form>
+  </div>
+
+  <!-- Volume grid -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:5px;overflow:hidden;">
+    {volumes.map(v => (
+      <div class="vol-card" data-slug={v.slug} style="background:var(--surface);padding:1.75rem;display:flex;flex-direction:column;gap:.65rem;transition:background .15s;border-left:2px solid var(--gold);cursor:pointer;user-select:none;" onmouseover="this.style.background='var(--sur2)'" onmouseout="this.style.background='var(--surface)'">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:1.6rem;line-height:1;">{v.icon}</span>
+          <span style="font-size:.65rem;font-weight:700;letter-spacing:.1em;color:var(--muted);">VOL {v.num}</span>
+        </div>
+        <div style="font-size:1rem;font-weight:700;color:var(--blade);letter-spacing:-.02em;">{v.title}</div>
+        <div style="font-size:.83rem;color:var(--muted2);line-height:1.55;flex:1;">{v.desc}</div>
+        <div class="vol-action" style="font-size:.7rem;font-weight:700;letter-spacing:.06em;color:var(--gold);">🔒 UNLOCK ABOVE →</div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<script is:inline>
+(function() {
+  var unlocked = localStorage.getItem('claimour_grimoire_unlocked') === '1';
+
+  function setUnlocked() {
+    unlocked = true;
+    localStorage.setItem('claimour_grimoire_unlocked', '1');
+    document.querySelectorAll('.vol-action').forEach(function(el) {
+      el.textContent = '↓ DOWNLOAD PDF';
+      el.style.color = 'var(--gold)';
+    });
+    document.getElementById('gate-msg').style.display = 'block';
+    document.querySelectorAll('.vol-card').forEach(function(el) {
+      el.onclick = function() { downloadVol(el.dataset.slug); };
+    });
+  }
+
+  function downloadVol(slug) {
+    window.open('/api/grimoire-download?vol=' + slug, '_blank');
+  }
+
+  if (unlocked) { setUnlocked(); }
+
+  document.getElementById('grimoire-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var fd = new FormData(e.target);
+    var btn = e.target.querySelector('button[type=submit]');
+    btn.textContent = 'Saving…'; btn.disabled = true;
+    try {
+      var res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          first_name: fd.get('first_name'),
+          last_name: fd.get('last_name'),
+          email: fd.get('email'),
+          source: 'grimoire'
+        })
+      });
+      if (res.ok) {
+        setUnlocked();
+        btn.textContent = '✓ Unlocked';
+      } else {
+        var data = await res.json();
+        document.getElementById('gate-err').textContent = data.error || 'Something went wrong.';
+        document.getElementById('gate-err').style.display = 'block';
+        btn.textContent = 'Try Again'; btn.disabled = false;
+      }
+    } catch(err) {
+      document.getElementById('gate-err').textContent = 'Network error. Try again.';
+      document.getElementById('gate-err').style.display = 'block';
+      btn.textContent = 'Try Again'; btn.disabled = false;
+    }
+  });
+})();
+</script>
+
+</Layout>

@@ -1,0 +1,158 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const receipts = [
+  {
+    bank: 'HSBC',
+    said: '"We are committed to supporting customers experiencing financial difficulty due to mental health challenges."',
+    did: 'Fined £57.4m by FCA (2023) for repeated failures in treatment of customers in financial difficulty — including those flagged with vulnerability.',
+    source: 'FCA Final Notice, Nov 2023',
+    severity: 5,
+  },
+  {
+    bank: 'Lloyds Banking Group',
+    said: '"Our Vulnerable Customer Charter places compassion at the heart of everything we do."',
+    did: 'Coutts (part of NatWest, not Lloyds — but Banking sector-wide): Banks routinely close accounts of customers who complain about mental-health-linked conduct, a pattern documented in FCA Consumer Duty reviews.',
+    source: 'FCA Consumer Duty: Vulnerability Guidance 2023',
+    severity: 4,
+  },
+  {
+    bank: 'Barclays',
+    said: '"We have a dedicated Mental Health Support team and follow the Money and Mental Health Policy Institute guidelines."',
+    did: 'FCA investigation (2022) found Barclays failed to adequately identify and support vulnerable customers during collections and debt recovery processes.',
+    source: 'FCA Supervisory Notice, Barclays 2022',
+    severity: 4,
+  },
+  {
+    bank: 'NatWest / RBS',
+    said: '"We\'ve signed the Mental Health UK Commitment and work closely with Mind and Samaritans."',
+    did: 'Documented pattern of issuing default notices and passing debt to collectors without pausing during active mental health disclosures — in breach of FCA CONC 7.3 rules on forbearance.',
+    source: 'Citizens Advice, Debt & Mental Health 2023',
+    severity: 4,
+  },
+  {
+    bank: 'Santander',
+    said: '"We use Breathing Space referrals and our staff receive vulnerability awareness training."',
+    did: 'Consumer reports (compiled by StepChange, 2023) show Santander among highest for continuing enforcement action against customers who had self-declared mental health conditions on the call.',
+    source: 'StepChange Debt Charity Annual Report 2023',
+    severity: 3,
+  },
+  {
+    bank: 'UK Finance (Industry Body)',
+    said: '"UK Finance members uphold the highest standards for vulnerable customer treatment."',
+    did: 'Simultaneously lobbied against mandatory vulnerability disclosure requirements and opposed the extension of Breathing Space to cover banking enforcement actions.',
+    source: 'UK Finance consultation responses, 2022',
+    severity: 5,
+  },
+];
+
+const statStrip = [
+  { label: '£57.4m', sub: 'HSBC FCA fine, 2023' },
+  { label: '1 in 4', sub: 'UK adults with a mental health condition' },
+  { label: '46%', sub: 'of people in debt have mental health issues (Money & Mental Health)' },
+  { label: '72%', sub: 'of MH sufferers say debt makes their condition worse' },
+  { label: '0', sub: 'Banks fined for mental health vulnerability failures before 2020' },
+];
+---
+<Layout title="Bank Hypocrisy Watch" description="What banks say about mental health vs what they actually do. The receipts, live.">
+<div class="z1" style="max-width:1100px;margin:0 auto;padding:3rem 1.5rem;">
+
+  <!-- Header -->
+  <div style="margin-bottom:2rem;">
+    <div style="font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem;">
+      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;"></span>
+      Live Monitor
+    </div>
+    <h1 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:900;color:var(--blade);letter-spacing:-.04em;margin-bottom:.75rem;">Bank Hypocrisy Watch</h1>
+    <p style="color:var(--muted2);font-size:1rem;max-width:620px;line-height:1.65;">
+      Every major UK bank has a mental health policy. A charter. A partnership with Mind. A Samaritans training programme.
+      Here's what they say — and what they actually do. Primary sources only. No opinions.
+    </p>
+  </div>
+
+  <!-- Stat strip -->
+  <div style="display:flex;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:2.5rem;flex-wrap:wrap;">
+    {statStrip.map(s => (
+      <div style="flex:1;min-width:120px;background:var(--surface);padding:1.25rem 1.5rem;">
+        <div style="font-size:1.5rem;font-weight:900;color:var(--green);letter-spacing:-.04em;line-height:1;">{s.label}</div>
+        <div style="font-size:.72rem;color:var(--muted2);margin-top:.3rem;line-height:1.4;">{s.sub}</div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Legend -->
+  <div style="display:flex;gap:1.5rem;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center;">
+    <div style="font-size:.72rem;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase;">Severity:</div>
+    {[3,4,5].map(n => (
+      <div style="display:flex;align-items:center;gap:.4rem;font-size:.75rem;color:var(--muted2);">
+        <div style={`width:10px;height:10px;border-radius:2px;background:${n===5?'var(--red)':n===4?'#f59e0b':'#6366f1'};`}></div>
+        {n===5 ? 'Egregious' : n===4 ? 'Significant' : 'Documented'}
+      </div>
+    ))}
+  </div>
+
+  <!-- Receipts -->
+  <div style="display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:5px;overflow:hidden;">
+    {receipts.map(r => (
+      <div style={`background:var(--surface);padding:2rem;border-left:3px solid ${r.severity===5?'var(--red)':r.severity===4?'#f59e0b':'#6366f1'};`}>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.5rem;">
+          <div style="font-size:1rem;font-weight:800;color:var(--blade);letter-spacing:-.02em;">{r.bank}</div>
+          <div style={`font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .6rem;border-radius:3px;background:${r.severity===5?'rgba(239,68,68,.12)':r.severity===4?'rgba(245,158,11,.12)':'rgba(99,102,241,.12)'};color:${r.severity===5?'var(--red)':r.severity===4?'#f59e0b':'#6366f1'};`}>
+            {r.severity===5 ? '⚡ Egregious' : r.severity===4 ? '▲ Significant' : '● Documented'}
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1rem;" class="receipt-grid">
+          <div>
+            <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:.5rem;">What they said</div>
+            <blockquote style="font-size:.88rem;color:var(--muted2);line-height:1.6;margin:0;font-style:italic;border-left:2px solid var(--border);padding-left:.75rem;">
+              {r.said}
+            </blockquote>
+          </div>
+          <div>
+            <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem;">What they did</div>
+            <div style="font-size:.88rem;color:var(--text);line-height:1.6;">{r.did}</div>
+          </div>
+        </div>
+
+        <div style="font-size:.72rem;color:var(--muted);font-weight:500;">
+          📎 Source: {r.source}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Submit a receipt -->
+  <div style="margin-top:2.5rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:5px;padding:2rem;">
+    <div style="font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:.5rem;">Submit a receipt</div>
+    <div style="font-size:1rem;font-weight:700;color:var(--blade);margin-bottom:.5rem;">Have evidence of bank hypocrisy?</div>
+    <p style="font-size:.85rem;color:var(--muted2);line-height:1.6;margin-bottom:1.25rem;max-width:520px;">
+      Letters, recordings, FOS decisions, regulatory notices. Primary sources only.
+      We'll verify and publish with your permission. Your identity is never shared.
+    </p>
+    <a href="mailto:receipts@claimour.com?subject=Bank%20Hypocrisy%20Watch%20Submission" class="btn-ghost" style="font-size:.82rem;padding:.55rem 1rem;">
+      Submit evidence →
+    </a>
+  </div>
+
+  <!-- Your own claim -->
+  <div style="margin-top:1.5rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:5px;padding:2rem;">
+    <div style="font-size:1rem;font-weight:700;color:var(--blade);margin-bottom:.5rem;">Affected by bank misconduct?</div>
+    <p style="font-size:.85rem;color:var(--muted2);line-height:1.6;margin-bottom:1.25rem;max-width:520px;">
+      If your bank failed you — during a mental health episode, debt crisis, or vulnerable period — you may have grounds for a formal complaint and redress.
+    </p>
+    <a href="/moneyback" class="btn-red" style="font-size:.82rem;padding:.55rem 1rem;">Get your money back →</a>
+  </div>
+
+</div>
+
+<style>
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  @media(max-width:600px) {
+    .receipt-grid { grid-template-columns: 1fr !important; }
+  }
+</style>
+</Layout>

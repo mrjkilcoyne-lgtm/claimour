@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+const guides = [
+  { slug:'banking', icon:'🏦', title:'Banking & Money', desc:'Overdrafts, charges, frozen accounts, dispute templates, and what your bank must do under FCA rules.' },
+  { slug:'subscriptions', icon:'📱', title:'Subscriptions & Cancelling', desc:'Cancel anything. Get money back on forgotten subscriptions. Chargeback rights under Section 75.' },
+  { slug:'mobile', icon:'📶', title:'Mobile & Broadband', desc:'Contract disputes, mid-contract hikes, dead signal zones, leaving without penalty.' },
+  { slug:'energy', icon:'⚡', title:'Energy', desc:'Switching, arrears, prepayment meters, the Warm Home Discount, billing disputes.' },
+  { slug:'council-tax', icon:'🏛️', title:'Council Tax & PCNs', desc:'Exemptions, discounts, parking fine appeals, challenging bailiff action.' },
+  { slug:'shopping', icon:'🛍️', title:'Shopping & Returns', desc:'Section 75, chargeback, 30-day rights, faulty goods, what "no refund" actually means legally.' },
+  { slug:'nhs', icon:'🏥', title:'NHS Access', desc:'GP registration, dental rights, mental health referrals, SAR requests for your records.' },
+  { slug:'renting', icon:'🏠', title:'Renting & Deposits', desc:'Deposit protection, illegal eviction, disrepair claims, getting every penny back.' },
+  { slug:'identity', icon:'🪪', title:'Identity & Recovery', desc:'Replacing documents, credit file repair, fraud recovery, re-establishing a paper trail.' },
+  { slug:'work', icon:'💼', title:'Work & Payslips', desc:'Payslip rights, National Minimum Wage, holiday pay, what your employer must provide by law.' },
+];
+---
+<Layout title="Know Your Rights — LifeBack UK" description="Ten plainly-written UK consumer rights guides. Free. No jargon.">
+<div class="z1" style="max-width:1100px;margin:0 auto;padding:3rem 1.5rem;">
+  <div style="margin-bottom:2.5rem;">
+    <div style="font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#3b82f6;margin-bottom:.5rem;">LifeBack UK</div>
+    <h1 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:900;color:var(--blade);letter-spacing:-.04em;margin-bottom:.75rem;">Know Your Rights</h1>
+    <p style="color:var(--muted2);font-size:1rem;max-width:560px;line-height:1.65;">
+      Ten guides. Ten areas where the system most often fails people. Plain language. Template letters included.
+      No lawyers needed to start — just knowledge.
+    </p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:5px;overflow:hidden;">
+    {guides.map(g => (
+      <a href={`/rights/${g.slug}`} style="background:var(--surface);padding:1.75rem;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.65rem;transition:background .15s;border-left:2px solid #3b82f6;" onmouseover="this.style.background='var(--sur2)'" onmouseout="this.style.background='var(--surface)'">
+        <div style="font-size:1.6rem;line-height:1;">{g.icon}</div>
+        <div style="font-size:1rem;font-weight:700;color:var(--blade);letter-spacing:-.02em;">{g.title}</div>
+        <div style="font-size:.83rem;color:var(--muted2);line-height:1.55;flex:1;">{g.desc}</div>
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;color:#3b82f6;">READ →</div>
+      </a>
+    ))}
+  </div>
+</div>
+</Layout>
