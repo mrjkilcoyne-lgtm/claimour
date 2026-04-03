@@ -1,0 +1,57 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="About — Susan Denim" description="I know what you did and what you get away with every single day.">
+<div class="z1" style="max-width:680px;margin:0 auto;padding:4rem 1.5rem;">
+
+  <!-- Portrait placeholder — replace with Canva export -->
+  <div style="display:flex;align-items:flex-start;gap:2.5rem;margin-bottom:3rem;flex-wrap:wrap;">
+    <div style="width:140px;height:140px;border-radius:50%;background:var(--surface);border:2px solid var(--border);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+      <img id="susan-portrait" src="/susan-denim.jpg" alt="Susan Denim" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';document.getElementById('susan-initials').style.display='flex'" />
+      <div id="susan-initials" style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:2.5rem;font-weight:900;color:var(--muted);">SD</div>
+    </div>
+    <div style="flex:1;min-width:200px;">
+      <h1 style="font-size:clamp(1.8rem,4vw,2.4rem);font-weight:900;color:var(--blade);letter-spacing:-.04em;margin-bottom:.25rem;">Susan Denim</h1>
+      <div style="font-size:.82rem;color:var(--muted2);margin-bottom:1rem;">LittleFuckYourself, Devon</div>
+      <blockquote style="font-size:1.05rem;color:var(--text);font-style:italic;line-height:1.65;margin:0;border-left:3px solid var(--red);padding-left:1rem;">
+        I know what you did and what you get away with every single day.
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- Bio -->
+  <div style="display:flex;flex-direction:column;gap:1.25rem;font-size:.95rem;color:var(--muted2);line-height:1.8;">
+    <p>
+      Claimour exists because the information asymmetry between institutions and individuals is not accidental.
+      It is engineered. Banks train thousands of staff to handle complaints. You get a letter, a helpline, and a 56-day clock.
+    </p>
+    <p>
+      The Grimoires were compiled from 260 app teardowns over three years of documenting what technology actually does
+      versus what it claims to do. The LifeBack UK guides were written after watching people lose housing, credit,
+      and dignity to processes that depended entirely on their not knowing the rules.
+    </p>
+    <p>
+      The Bank Hypocrisy Watch exists because I am tired of reading Mental Health Awareness Week press releases
+      from organisations that spent the other 51 weeks doing the opposite.
+    </p>
+    <p>
+      The Oracle is opinionated. So am I.
+    </p>
+    <p style="color:var(--muted);">
+      I do not provide legal advice. I provide what I know, what I think, and the tools to act on both.
+      The sword is yours. Use it.
+    </p>
+  </div>
+
+  <!-- Contact -->
+  <div style="margin-top:3rem;padding:1.5rem;border:1px solid var(--border);border-left:3px solid var(--red);border-radius:5px;">
+    <div style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem;">Contact</div>
+    <div style="font-size:.88rem;color:var(--muted2);line-height:1.7;">
+      Evidence for the Bank Watch: <a href="mailto:receipts@claimour.com" style="color:var(--red);">receipts@claimour.com</a><br/>
+      Everything else: <a href="mailto:susan@claimour.com" style="color:var(--red);">susan@claimour.com</a><br/>
+      <span style="color:var(--muted);font-size:.78rem;">I read everything. I reply to very little. If your situation is urgent, go to <a href="/oracle" style="color:var(--gold);">The Oracle</a> first.</span>
+    </div>
+  </div>
+
+</div>
+</Layout>

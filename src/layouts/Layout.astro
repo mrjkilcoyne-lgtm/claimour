@@ -56,6 +56,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <a href="/moneyback" style="color:var(--muted2);text-decoration:none;font-size:.82rem;font-weight:500;padding:.3rem .65rem;border-radius:3px;transition:all .15s;" onmouseover="this.style.color='var(--text)';this.style.background='var(--surface)'" onmouseout="this.style.color='var(--muted2)';this.style.background='none'">Money Back</a>
     <a href="/grimoire" style="color:var(--muted2);text-decoration:none;font-size:.82rem;font-weight:500;padding:.3rem .65rem;border-radius:3px;transition:all .15s;" onmouseover="this.style.color='var(--text)';this.style.background='var(--surface)'" onmouseout="this.style.color='var(--muted2)';this.style.background='none'">Grimoire</a>
     <a href="/watch" style="color:var(--muted2);text-decoration:none;font-size:.82rem;font-weight:500;padding:.3rem .65rem;border-radius:3px;transition:all .15s;" onmouseover="this.style.color='var(--text)';this.style.background='var(--surface)'" onmouseout="this.style.color='var(--muted2)';this.style.background='none'">Watch</a>
+    <a href="/news" style="color:var(--muted2);text-decoration:none;font-size:.82rem;font-weight:500;padding:.3rem .65rem;border-radius:3px;transition:all .15s;" onmouseover="this.style.color='var(--text)';this.style.background='var(--surface)'" onmouseout="this.style.color='var(--muted2)';this.style.background='none'">News</a>
+    <a href="/oracle" style="color:var(--gold);text-decoration:none;font-size:.82rem;font-weight:700;padding:.3rem .65rem;border-radius:3px;transition:all .15s;border:1px solid rgba(217,119,6,.3);" onmouseover="this.style.background='rgba(217,119,6,.1)'" onmouseout="this.style.background='transparent'">The Oracle</a>
     <a href="/donate" class="btn-red" style="font-size:.8rem;padding:.4rem .9rem;">Support ♥</a>
   </div>
 </nav>
@@ -68,17 +70,22 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 <!-- FOOTER -->
 <footer style="border-top:1px solid var(--border);background:var(--surface);padding:2rem 1.5rem;position:relative;z-index:1;" class="z1">
   <div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
-    <div style="font-weight:900;font-size:.95rem;letter-spacing:-0.03em;color:var(--muted2);">⚔ Claimour</div>
+    <div>
+      <div style="font-weight:900;font-size:.95rem;letter-spacing:-0.03em;color:var(--muted2);">⚔ Claimour</div>
+      <div style="font-size:.72rem;color:var(--muted);margin-top:.2rem;">By <span style="color:var(--muted2);font-weight:600;">Susan Denim</span> · LittleFuckYourself, Devon</div>
+    </div>
     <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
       <a href="/rights" style="color:var(--muted);text-decoration:none;font-size:.78rem;">Rights</a>
       <a href="/moneyback" style="color:var(--muted);text-decoration:none;font-size:.78rem;">Money Back</a>
       <a href="/grimoire" style="color:var(--muted);text-decoration:none;font-size:.78rem;">Grimoire</a>
       <a href="/watch" style="color:var(--muted);text-decoration:none;font-size:.78rem;">Bank Watch</a>
+      <a href="/news" style="color:var(--muted);text-decoration:none;font-size:.78rem;">News</a>
+      <a href="/oracle" style="color:var(--gold);text-decoration:none;font-size:.78rem;">The Oracle</a>
       <a href="/donate" style="color:var(--muted);text-decoration:none;font-size:.78rem;">Donate</a>
       <a href="/privacy" style="color:var(--muted);text-decoration:none;font-size:.78rem;">Privacy</a>
     </div>
     <div style="width:100%;border-top:1px solid var(--border);padding-top:1rem;margin-top:.5rem;font-size:.7rem;color:var(--muted);">
-      Not legal advice. Free forever. Content licensed Creative Commons BY-SA 4.0. The sword is yours. &copy; Canzuk Ltd {new Date().getFullYear()}
+      Not legal advice. Free forever. Content licensed Creative Commons BY-SA 4.0. The sword is yours.
     </div>
   </div>
 </footer>

@@ -4,168 +4,255 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="The sword for anyone the system forgot">
 
 <style>
-  .doors {
+  /* Z-pattern hero */
+  .hero {
+    min-height: calc(100vh - 58px);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(239,68,68,.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(217,119,6,.04) 0%, transparent 60%);
+  }
+  /* Diagonal grid lines — subtle */
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,.012) 60px,
+      rgba(255,255,255,.012) 61px
+    );
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 1.5rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  /* Z-path: top-left eyepath anchor */
+  .hero-eyebrow {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--red);
+  }
+  .hero-headline {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 900;
+    line-height: .95;
+    letter-spacing: -.05em;
+    color: var(--blade);
+    margin-bottom: 1.5rem;
+    max-width: 800px;
+  }
+  .hero-headline .accent { color: var(--red); }
+  /* Z-path diagonal: sub sweeps right */
+  .hero-sub {
+    font-size: clamp(.95rem, 2vw, 1.15rem);
+    color: var(--muted2);
+    line-height: 1.65;
+    max-width: 540px;
+    margin-bottom: 2.5rem;
+    /* Pushes eye diagonally right — classic Z anchor */
+    margin-left: clamp(0px, 4vw, 80px);
+  }
+  .hero-ctas {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+    /* Aligns at end of Z-diagonal: bottom-right target */
+    margin-left: clamp(0px, 4vw, 80px);
+  }
+
+  /* Impact strip — eye continues down left */
+  .impact-strip {
+    position: relative; z-index: 2;
+    border-top: 1px solid var(--border);
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    min-height: calc(100vh - 58px);
+    background: var(--surface);
   }
-  @media(max-width:768px) {
-    .doors { grid-template-columns: 1fr 1fr; min-height: auto; }
-    .door { min-height: 44vw; }
+  .impact-cell {
+    padding: 1.25rem 1.5rem;
+    border-right: 1px solid var(--border);
   }
-  @media(max-width:480px) {
+  .impact-cell:last-child { border-right: none; }
+  .impact-num { font-size: 1.6rem; font-weight: 900; letter-spacing: -.04em; line-height: 1; color: var(--red); }
+  .impact-label { font-size: .72rem; color: var(--muted2); margin-top: .3rem; line-height: 1.4; }
+
+  @media(max-width: 680px) {
+    .impact-strip { grid-template-columns: 1fr 1fr; }
+    .impact-cell:nth-child(2) { border-right: none; }
+    .hero-headline { font-size: clamp(2.5rem, 10vw, 4rem); }
+  }
+  @media(max-width: 420px) {
+    .impact-strip { grid-template-columns: 1fr; }
+    .impact-cell { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+
+  /* Section doors — now horizontal scroll on mobile, grid on desktop */
+  .doors {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-top: 1px solid var(--border);
+  }
+  @media(max-width: 900px) {
+    .doors { grid-template-columns: 1fr 1fr; }
+  }
+  @media(max-width: 480px) {
     .doors { grid-template-columns: 1fr; }
-    .door { min-height: 56vw; }
   }
   .door {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 2rem;
+    padding: 2rem 1.5rem;
     text-decoration: none;
     color: inherit;
     border-right: 1px solid var(--border);
-    overflow: hidden;
-    transition: background 0.2s;
-    cursor: pointer;
-    min-height: 100%;
+    transition: background .15s;
+    display: flex;
+    flex-direction: column;
+    gap: .65rem;
+    min-height: 180px;
   }
   .door:last-child { border-right: none; }
-  .door::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(7,7,11,0.95) 30%, transparent 100%);
-    z-index: 1;
-    transition: opacity 0.2s;
+  .door:hover { background: var(--sur2); }
+  @media(max-width: 900px) {
+    .door { border-bottom: 1px solid var(--border); }
+    .door:nth-child(even) { border-right: none; }
   }
-  .door:hover::before { opacity: 0.7; }
-  .door:hover { background: var(--surface); }
-  .door-number {
-    position: absolute;
-    top: 1.5rem; left: 2rem;
-    font-size: .65rem; font-weight: 700;
-    letter-spacing: .14em; text-transform: uppercase;
-    color: var(--muted); z-index: 2;
-    transition: color .2s;
+  .door-num {
+    font-size: .6rem; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--muted);
   }
-  .door:hover .door-number { color: var(--muted2); }
-  .door-icon {
-    font-size: 2.8rem; margin-bottom: 1rem;
-    z-index: 2; line-height: 1;
-    transition: transform .2s;
-  }
-  .door:hover .door-icon { transform: translateY(-4px); }
   .door-title {
-    font-size: clamp(1.4rem, 2.5vw, 2rem);
-    font-weight: 900;
-    letter-spacing: -0.04em;
-    line-height: 1.05;
-    color: var(--blade);
-    z-index: 2;
-    margin-bottom: .5rem;
+    font-size: 1rem; font-weight: 800; color: var(--blade);
+    letter-spacing: -.02em; line-height: 1.2;
   }
   .door-sub {
-    font-size: .8rem;
-    color: var(--muted2);
-    line-height: 1.5;
-    z-index: 2;
-    max-width: 220px;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: all .2s;
+    font-size: .78rem; color: var(--muted2); line-height: 1.55; flex: 1;
   }
-  .door:hover .door-sub { opacity: 1; transform: translateY(0); }
-  .door-arrow {
-    display: inline-flex; align-items: center; gap: .3rem;
-    margin-top: .75rem;
-    font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+  .door-cta {
+    font-size: .68rem; font-weight: 700; letter-spacing: .08em;
     text-transform: uppercase;
-    z-index: 2;
-    transition: gap .15s;
-    opacity: 0;
-    transition: all .2s;
   }
-  .door:hover .door-arrow { opacity: 1; }
-
-  /* Door accent bars */
-  .door-rights { border-top: 3px solid #3b82f6; }
-  .door-rights .door-arrow { color: #3b82f6; }
-  .door-money { border-top: 3px solid var(--red); }
-  .door-money .door-arrow { color: var(--red); }
-  .door-grimoire { border-top: 3px solid var(--gold); }
-  .door-grimoire .door-arrow { color: var(--gold); }
-  .door-watch { border-top: 3px solid var(--green); }
-  .door-watch .door-arrow { color: var(--green); }
-
-  /* Hero strip above doors */
-  .hero-strip {
-    border-bottom: 1px solid var(--border);
-    padding: 1.25rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: .75rem;
-  }
-  .hero-tagline {
-    font-size: clamp(.8rem, 2vw, .95rem);
-    color: var(--muted2);
-    font-weight: 400;
-  }
-  .hero-tagline strong { color: var(--blade); font-weight: 700; }
-  .hero-actions { display: flex; gap: .5rem; align-items: center; }
+  /* Accent bars via border-top */
+  .d-rights  { border-top: 3px solid #3b82f6; }
+  .d-money   { border-top: 3px solid var(--red); }
+  .d-tech    { border-top: 3px solid var(--gold); }
+  .d-watch   { border-top: 3px solid var(--green); }
+  .d-oracle  { border-top: 3px solid #8b5cf6; }
+  .d-rights .door-cta  { color: #3b82f6; }
+  .d-money .door-cta   { color: var(--red); }
+  .d-tech .door-cta    { color: var(--gold); }
+  .d-watch .door-cta   { color: var(--green); }
+  .d-oracle .door-cta  { color: #8b5cf6; }
 </style>
 
-<div class="z1">
-  <!-- Tagline strip -->
-  <div class="hero-strip">
-    <div class="hero-tagline">
-      <strong>Claimour</strong> — free UK consumer rights, legal power & technical guides.
-      The sword for anyone the system forgot.
-    </div>
-    <div class="hero-actions">
-      <a href="/grimoire" class="btn-ghost" style="font-size:.78rem;padding:.4rem .85rem;">The Grimoire ↗</a>
-      <a href="/donate" class="btn-red" style="font-size:.78rem;padding:.4rem .85rem;">Support ♥</a>
+<div class="hero">
+  <div class="hero-bg"></div>
+
+  <div class="hero-content">
+    <!-- Z top-left anchor -->
+    <div class="hero-eyebrow">Free · UK · No lawyers needed</div>
+
+    <!-- Headline: massive, blade-white, red accent -->
+    <h1 class="hero-headline">
+      The <span class="accent">sword</span><br/>
+      for anyone<br/>
+      the system forgot.
+    </h1>
+
+    <!-- Sub: shifts right — Z diagonal -->
+    <p class="hero-sub">
+      UK consumer rights, mental health law, bank accountability,
+      and technical power guides. Compiled by someone who knows
+      what they get away with every single day.
+    </p>
+
+    <!-- CTAs: bottom-right of Z — primary action -->
+    <div class="hero-ctas">
+      <a href="/rights" class="btn-red" style="font-size:.9rem;padding:.65rem 1.3rem;">Know Your Rights →</a>
+      <a href="/oracle" class="btn-ghost" style="font-size:.9rem;padding:.65rem 1.3rem;border-color:rgba(139,92,246,.4);color:#a78bfa;">Ask The Oracle</a>
+      <a href="/moneyback" class="btn-ghost" style="font-size:.9rem;padding:.65rem 1.3rem;">Get Money Back</a>
     </div>
   </div>
 
-  <!-- Four Doors -->
-  <div class="doors">
-
-    <a href="/rights" class="door door-rights">
-      <div class="door-number">01 — Rights</div>
-      <div class="door-icon">⚖️</div>
-      <div class="door-title">Know Your Rights</div>
-      <div class="door-sub">LifeBack UK — ten plainly-written guides. Banking, energy, renting, NHS, council tax. What the system owes you.</div>
-      <div class="door-arrow">Enter →</div>
-    </a>
-
-    <a href="/moneyback" class="door door-money">
-      <div class="door-number">02 — Claims</div>
-      <div class="door-icon">💷</div>
-      <div class="door-title">Get Your Money Back</div>
-      <div class="door-sub">SAR templates. FOS complaints. Bank misconduct. No-win no-fee referrals. Step-by-step.</div>
-      <div class="door-arrow">Enter →</div>
-    </a>
-
-    <a href="/grimoire" class="door door-grimoire">
-      <div class="door-number">03 — Technical</div>
-      <div class="door-icon">📖</div>
-      <div class="door-title">The Grimoire</div>
-      <div class="door-sub">Eight volumes on Android power, shadow APIs, financial automation, SIGINT, and the human layer. Free to download.</div>
-      <div class="door-arrow">Enter →</div>
-    </a>
-
-    <a href="/watch" class="door door-watch">
-      <div class="door-number">04 — Monitor</div>
-      <div class="door-icon">👁</div>
-      <div class="door-title">Bank Hypocrisy Watch</div>
-      <div class="door-sub">Daily scan. What banks say about mental health vs what they actually do. The receipts, live.</div>
-      <div class="door-arrow">Enter →</div>
-    </a>
-
+  <!-- Impact strip — eye anchors bottom-left of Z -->
+  <div class="impact-strip">
+    <div class="impact-cell">
+      <div class="impact-num">£57.4m</div>
+      <div class="impact-label">HSBC fined — vulnerable customer failures</div>
+    </div>
+    <div class="impact-cell">
+      <div class="impact-num">46%</div>
+      <div class="impact-label">of people in debt have a mental health condition</div>
+    </div>
+    <div class="impact-cell">
+      <div class="impact-num">Free</div>
+      <div class="impact-label">FOS is free · bank must comply with decisions</div>
+    </div>
+    <div class="impact-cell">
+      <div class="impact-num">0</div>
+      <div class="impact-label">Lawyers needed to start a formal complaint</div>
+    </div>
   </div>
+</div>
+
+<!-- Section doors -->
+<div class="doors">
+  <a href="/rights" class="door d-rights">
+    <div class="door-num">01 — Rights</div>
+    <div class="door-title">Know Your Rights</div>
+    <div class="door-sub">LifeBack UK — ten guides. Banking, energy, renting, NHS, council tax. Plain language, template letters.</div>
+    <div class="door-cta">Enter →</div>
+  </a>
+  <a href="/moneyback" class="door d-money">
+    <div class="door-num">02 — Claims</div>
+    <div class="door-title">Get Your Money Back</div>
+    <div class="door-sub">SAR, FOS complaints, chargeback, default challenges. Copy-paste templates.</div>
+    <div class="door-cta">Enter →</div>
+  </a>
+  <a href="/grimoire" class="door d-tech">
+    <div class="door-num">03 — Technical</div>
+    <div class="door-title">The Grimoire</div>
+    <div class="door-sub">Eight volumes. Android power, shadow APIs, financial automation, SIGINT. Free download.</div>
+    <div class="door-cta">Enter →</div>
+  </a>
+  <a href="/watch" class="door d-watch">
+    <div class="door-num">04 — Monitor</div>
+    <div class="door-title">Bank Hypocrisy Watch</div>
+    <div class="door-sub">What banks say about mental health vs what they do. Primary sources only. The receipts, live.</div>
+    <div class="door-cta">Enter →</div>
+  </a>
+  <a href="/oracle" class="door d-oracle">
+    <div class="door-num">05 — Opinion</div>
+    <div class="door-title">The Oracle</div>
+    <div class="door-sub">UK mental health law + financial services. Gives opinions. No sycophancy. Your side, not theirs.</div>
+    <div class="door-cta">Consult →</div>
+  </a>
 </div>
 
 </Layout>
