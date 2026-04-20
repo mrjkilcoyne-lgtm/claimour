@@ -65,17 +65,30 @@ function stripHtml(html: string): string {
 }
 
 const FEEDS = [
-  { name: 'MoneySavingExpert', url: 'https://www.moneysavingexpert.com/news/rss/', color: '#d4930a' },
-  { name: 'Mind', url: 'https://www.mind.org.uk/news-campaigns/news/rss/', color: '#22c55e' },
+  // UK regulators
   { name: 'FCA', url: 'https://www.fca.org.uk/news/rss.xml', color: '#c41e3a' },
-  { name: 'Money & Mental Health', url: 'https://www.moneyandmentalhealth.org/feed/', color: '#8888a8' },
+  { name: 'Financial Ombudsman', url: 'https://www.financial-ombudsman.org.uk/feed', color: '#c41e3a' },
+  { name: 'ICO', url: 'https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/feed/', color: '#3b82f6' },
+  { name: 'CMA', url: 'https://competitionandmarkets.blog.gov.uk/feed/', color: '#3b82f6' },
+  { name: 'Ofcom', url: 'https://www.ofcom.org.uk/news-centre.rss', color: '#3b82f6' },
+  { name: 'Ofgem', url: 'https://www.ofgem.gov.uk/rss.xml', color: '#3b82f6' },
+  // Consumer money
+  { name: 'MoneySavingExpert', url: 'https://www.moneysavingexpert.com/news/rss/', color: '#d4930a' },
+  { name: 'Money Helper', url: 'https://www.moneyhelper.org.uk/en/feed', color: '#d4930a' },
+  { name: 'StepChange', url: 'https://www.stepchange.org/blog.rss', color: '#d4930a' },
+  { name: 'Which?', url: 'https://www.which.co.uk/news/rss', color: '#d4930a' },
+  { name: 'Citizens Advice', url: 'https://www.citizensadvice.org.uk/about-us/our-work/blog/feed/', color: '#d4930a' },
+  // Mental health
+  { name: 'Money & Mental Health', url: 'https://www.moneyandmentalhealth.org/feed/', color: '#8b5cf6' },
+  { name: 'Mental Health Foundation', url: 'https://www.mentalhealth.org.uk/our-work/news/feed', color: '#8b5cf6' },
+  { name: 'Rethink Mental Illness', url: 'https://www.rethink.org/news-and-stories/feed/', color: '#8b5cf6' },
 ];
 
 const sources: FeedSource[] = await Promise.all(
   FEEDS.map(async (feed) => {
     try {
       const res = await fetch(feed.url, {
-        headers: { 'User-Agent': 'TNBOT/1.0 (+https://claimour.com)' },
+        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ClaimourNewsReader/1.0; +https://claimour.com)', 'Accept': 'application/rss+xml, application/xml, text/xml, */*;q=0.8' },
         signal: AbortSignal.timeout(7000),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
