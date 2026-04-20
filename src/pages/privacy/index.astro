@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-const updated = '3 April 2026';
+const updated = '20 April 2026';
 ---
 <Layout title="Privacy Policy" description="Privacy policy. Plain English. What we collect, why, and your rights.">
 <div class="z1" style="max-width:780px;margin:0 auto;padding:3rem 1.5rem;">
@@ -14,7 +14,13 @@ const updated = '3 April 2026';
 
     <section>
       <h2 style="font-size:1rem;font-weight:800;color:var(--blade);margin-bottom:.5rem;">Who we are</h2>
-      <p>This site is operated by Canzuk Ltd (Company No. 17074739), registered in England and Wales. Our contact for data matters: <a href="mailto:privacy@claimour.com" style="color:var(--red);">privacy@claimour.com</a>.</p>
+      <p>This site is operated by Canzuk Ltd (Company No. 17074739), registered in England and Wales. Our contact for data matters: <a href="mailto:info@claimour.com" style="color:var(--red);">info@claimour.com</a>.</p>
+    </section>
+
+    <section style="background:rgba(196,30,58,0.08);border:1px solid var(--red);border-radius:4px;padding:1.25rem;">
+      <h2 style="font-size:1rem;font-weight:800;color:var(--red);margin-bottom:.5rem;">&#x26A0; Important: Oracle chat &amp; model training</h2>
+      <p>The &ldquo;Oracle&rdquo; on this site is an AI chat tool powered by a third-party large language model provider (currently <strong>Anthropic</strong>; may rotate to <strong>Google Vertex AI</strong>). <strong>Your messages may be used by that provider to train or improve their models.</strong> We do not control that use.</p>
+      <p style="margin-top:.5rem;"><strong>Do not enter personal, sensitive, confidential, health, financial, or identifying information into the Oracle.</strong> Treat it as a public surface, not a private consultation.</p>
     </section>
 
     <section>
@@ -48,12 +54,15 @@ const updated = '3 April 2026';
     <section>
       <h2 style="font-size:1rem;font-weight:800;color:var(--blade);margin-bottom:.5rem;">Third parties we use</h2>
       <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.4rem;">
-        <li><strong style="color:var(--text);">Supabase</strong> — EU database hosting (eu-west-2). Processes subscriber email/name.</li>
-        <li><strong style="color:var(--text);">Stripe</strong> — payment processing. Stripe's privacy policy applies to payment data.</li>
-        <li><strong style="color:var(--text);">Vercel</strong> — site hosting. EU region. Processes IP addresses transiently for routing.</li>
-        <li><strong style="color:var(--text);">Google Analytics</strong> — if consented. Google LLC, USA. Adequacy decision applies.</li>
-        <li><strong style="color:var(--text);">Google AdSense / Meta Pixel</strong> — if consented. Third-party advertising trackers.</li>
+        <li><strong style="color:var(--text);">Civo Cloud</strong> — site hosting. UK (London / LON1). Processes IP addresses transiently for routing and TLS.</li>
+        <li><strong style="color:var(--text);">Cloudflare</strong> — DNS and edge network. Global. Processes IP addresses transiently.</li>
+        <li><strong style="color:var(--text);">Supabase</strong> — subscriber database. EU region (eu-west-2). Stores name / email.</li>
+        <li><strong style="color:var(--text);">Anthropic</strong> — Oracle AI model provider. USA. May use chat inputs to train or improve their models. See anthropic.com/privacy.</li>
+        <li><strong style="color:var(--text);">Google (Vertex AI)</strong> — alternative Oracle model provider. USA. May use chat inputs to train or improve their models. See cloud.google.com/terms.</li>
+        <li><strong style="color:var(--text);">Stripe</strong> — payment processing. UK / USA. Stripe's privacy policy applies to payment data.</li>
+        <li><strong style="color:var(--text);">Google Analytics 4</strong> — if consented. Google LLC, USA. UK–US Data Bridge applies.</li>
       </ul>
+      <p style="margin-top:.5rem;font-size:.85rem;color:var(--muted2);">International transfers to US processors rely on the UK–US Data Bridge, UK International Data Transfer Agreement (IDTA), or Standard Contractual Clauses with UK addendum, as appropriate.</p>
     </section>
 
     <section>
@@ -72,7 +81,7 @@ const updated = '3 April 2026';
         <li><strong style="color:var(--text);">Object</strong> — object to legitimate interests processing</li>
         <li><strong style="color:var(--text);">Withdraw consent</strong> — at any time, for consent-based processing</li>
       </ul>
-      <p style="margin-top:.75rem;">To exercise any right: <a href="mailto:privacy@claimour.com" style="color:var(--red);">privacy@claimour.com</a>. We'll respond within 30 days. If unsatisfied: <a href="https://ico.org.uk" target="_blank" rel="noopener" style="color:var(--red);">ICO (ico.org.uk)</a>.</p>
+      <p style="margin-top:.75rem;">To exercise any right: <a href="mailto:info@claimour.com" style="color:var(--red);">info@claimour.com</a>. We'll respond within 30 days. If unsatisfied: <a href="https://ico.org.uk" target="_blank" rel="noopener" style="color:var(--red);">ICO (ico.org.uk)</a>.</p>
     </section>
 
     <section>
@@ -81,8 +90,7 @@ const updated = '3 April 2026';
       <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.4rem;">
         <li><strong style="color:var(--text);">localStorage (essential)</strong> — stores your cookie consent preference and Grimoire unlock status. Cannot be disabled.</li>
         <li><strong style="color:var(--text);">Google Analytics cookies</strong> — if consented. Tracks sessions, page views, referrals.</li>
-        <li><strong style="color:var(--text);">Advertising cookies</strong> — if consented. Set by Google AdSense and/or Meta.</li>
-        <li><strong style="color:var(--text);">Stripe cookies</strong> — set on the Stripe-hosted payment page only.</li>
+        <li><strong style="color:var(--text);">Stripe cookies</strong> — set on the Stripe-hosted payment page only, when you donate.</li>
       </ul>
       <p style="margin-top:.75rem;">You can change your preferences at any time: <button onclick="localStorage.removeItem('claimour_consent');window.location.reload();" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:inherit;padding:0;text-decoration:underline;">Reset cookie preferences</button></p>
     </section>
